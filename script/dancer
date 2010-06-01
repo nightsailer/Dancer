@@ -236,13 +236,13 @@ I\'m in <code>[%appdir%]/views/index.tt</code>
     Dancer::Renderer->html_page($appname, '<% content %>'),
 
 "dispatch.cgi" =>
-"#!$^X
+"#!/usr/bin/env perl
 use Plack::Runner;
 Plack::Runner->run('[% appdir %]/app.psgi');
 ",
 
 "dispatch.fcgi" =>
-"#!$^X
+"#!/usr/bin/env perl
 use Plack::Handler::FCGI;
 
 my \$app = do('[% appdir %]/app.psgi');
@@ -252,7 +252,7 @@ my \$server = Plack::Handler::FCGI->new(nproc  => 5, detach => 1);
 
 "$appname.pl" =>
 
-"#!$^X
+"#!/usr/bin/env perl
 use Dancer;
 load_app '$appname';
 dance;
