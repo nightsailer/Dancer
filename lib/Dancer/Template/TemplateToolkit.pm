@@ -5,6 +5,7 @@ use warnings;
 use Dancer::Config 'setting';
 use Dancer::ModuleLoader;
 use Dancer::FileUtils 'path';
+use Encode qw(encode_utf8);
 
 use base 'Dancer::Template::Abstract';
 
@@ -42,6 +43,7 @@ sub render($$$) {
 
     my $content = "";
     $_engine->process($template, $tokens, \$content) or die $_engine->error;
+    $content = encode_utf8($content) if $self->config->{encode_utf8};
     return $content;
 }
 
