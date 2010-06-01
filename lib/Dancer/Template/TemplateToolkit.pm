@@ -81,6 +81,18 @@ within your config file - for example:
             start_tag: '[%'
             stop_tag: '%]'
 
+Note if your template is utf8 encode, you should apply this setting:
+
+    template: template_toolkit
+    engines:
+        template_toolkit:
+            start_tag: '[%'
+            stop_tag: '%]'
+            ENCODING: 'utf8'
+            encode_utf8: 1
+
+This will render page correctly and work around for  "Wide character in print at ..." warnings.
+
 
 =head1 SEE ALSO
 

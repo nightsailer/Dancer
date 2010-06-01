@@ -275,6 +275,11 @@ use them.
 
 See L<Dancer::Session> for supported engines and their respective configuration.
 
+=head2 dancer_tokens (boolean)
+
+If set to false, Dancer will disable output dancer tokens header, a 'X-Powered-By Dancer' 
+header. Sometimes you want to hide this header for security reason.
+
 =head1 AUTHOR
 
 This module has been written by Alexis Sukrieh <sukria@cpan.org> and others,
