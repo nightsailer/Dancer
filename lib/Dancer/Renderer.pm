@@ -51,7 +51,7 @@ sub response_with_headers {
 
     $response->{headers} ||= [];
     push @{$response->{headers}},
-      ('X-Powered-By' => "Perl Dancer ${Dancer::VERSION}") if setting('dancer_tokens') != 0;
+      ('X-Powered-By' => "Perl Dancer ${Dancer::VERSION}") unless defined setting('dancer_tokens') && !setting('dancer_tokens');
 
     # add cookies
     foreach my $c (keys %{Dancer::Cookies->cookies}) {
