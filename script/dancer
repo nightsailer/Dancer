@@ -91,7 +91,6 @@ sub app_tree($)  {
 
 
     return {
-        "app.psgi"      => FILE,
         "+$appname.pl"  => FILE,
         "Makefile.PL"   => FILE,
         lib => {
@@ -209,22 +208,6 @@ WriteMakefile(
 );
 ",
 
-'app.psgi'  =>
-
-"# PSGI application bootstraper for Dancer
-use Dancer;
-load_app '$appname';
-
-use Dancer::Config 'setting';
-setting apphandler  => 'PSGI';
-Dancer::Config->load;
-
-my \$handler = sub {
-    my \$env = shift;
-    my \$request = Dancer::Request->new(\$env);
-    Dancer->dance(\$request);
-};
-",
 'index.tt'  => '<h2>It Works!</h2>
 
 <p>
@@ -238,14 +221,14 @@ I\'m in <code>[%appdir%]/views/index.tt</code>
 "dispatch.cgi" =>
 "#!/usr/bin/env perl
 use Plack::Runner;
-Plack::Runner->run('[% appdir %]/app.psgi');
+Plack::Runner->run('[% appdir %]/$appname.pl');
 ",
 
 "dispatch.fcgi" =>
 "#!/usr/bin/env perl
 use Plack::Handler::FCGI;
 
-my \$app = do('[% appdir %]/app.psgi');
+my \$app = do('[% appdir %]/$appname.pl');
 my \$server = Plack::Handler::FCGI->new(nproc  => 5, detach => 1);
 \$server->run(\$app);
 ",
@@ -487,7 +470,6 @@ Here is an application created with dancer:
     + mywebapp/environments/development.yml
     + mywebapp/mywebapp.pm
     + mywebapp/mywebapp.pl
-    + mywebapp/app.psgi
     + mywebapp/favicon.ico
 
 The application is ready to serve:

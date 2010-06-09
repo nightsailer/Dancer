@@ -29,7 +29,7 @@ use File::Spec;
 use base 'Exporter';
 
 $AUTHORITY = 'SUKRIA';
-$VERSION   = '1.1803';
+$VERSION   = '1.1804';
 @EXPORT    = qw(
   ajax
   any
@@ -191,8 +191,14 @@ sub import {
 # Start/Run the application with the chosen apphandler
 sub start {
     my ($class, $request) = @_;
+    
+    # merge from miyagawa fork
+    if ($request) {
+        return Dancer::Handler->handle_request($request);
+    }
     Dancer::Config->load;
-    Dancer::Handler->get_handler()->dance($request);
+    # Dancer::Handler->get_handler()->dance($request);
+    Dancer::Handler->get_handler()->dance;
 }
 
 # private
