@@ -34,10 +34,15 @@ sub dance {
 
 sub init_request_headers {
     my ($self, $request) = @_;
-
-    my $plack = Plack::Request->new($request->env);
-    my $headers = Dancer::Headers->new(headers => $plack->headers);
-    Dancer::SharedData->headers($headers);
+    my $env = $request->env;
+    my $headers = HTTP::Headers->new(
+       map {
+       (my $field = $_) =~ s/^HTTPS?_//;
+        ( $field => $env->{$_} );
+       }
+       grep { /^(?:HTTP|CONTENT|COOKIE)/i } keys %$env
+    );
+    Dancer::SharedData->headers(Dancer::Headers->new(headers => $headers));
     $request->_build_headers();
 }
 
